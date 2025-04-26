@@ -2,7 +2,7 @@ services:
   - type: web
     name: open-calendar-frontend
     runtime: docker
-    repo: https://github.com/yourusername/OpenCalendar
+    repo: https://github.com/0zzz7y/OpenCalendar-Frontend
     branch: main
     rootDir: OpenCalendar-Frontend
     dockerfilePath: Dockerfile
@@ -14,7 +14,7 @@ services:
   - type: web
     name: open-calendar-backend
     runtime: docker
-    repo: https://github.com/yourusername/OpenCalendar
+    repo: https://github.com/0zzz7y/OpenCalendar-Backend
     branch: main
     rootDir: OpenCalendar-Backend
     dockerfilePath: Dockerfile
