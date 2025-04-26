@@ -2,16 +2,16 @@ version: "3.8"
 services:
   frontend:
     build:
-      context: ./Frontend
+      context: ./OpenCalendar-Frontend
       dockerfile: Dockerfile
     ports:
       - "80:80"
     depends_on:
-      - Backend
+      - OpenCalendar-Backend
 
   backend:
     build:
-      context: ./Backend
+      context: ./OpenCalendar-Backend
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
