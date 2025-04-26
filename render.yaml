@@ -4,7 +4,6 @@ services:
     runtime: docker
     repo: https://github.com/0zzz7y/OpenCalendar-Frontend
     branch: main
-    rootDir: OpenCalendar-Frontend
     dockerfilePath: Dockerfile
     plan: free
     envVars:
@@ -16,7 +15,6 @@ services:
     runtime: docker
     repo: https://github.com/0zzz7y/OpenCalendar-Backend
     branch: main
-    rootDir: OpenCalendar-Backend
     dockerfilePath: Dockerfile
     plan: free
     envVars:
