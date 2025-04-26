@@ -1,17 +1,22 @@
 version: "3.8"
-services:
-  frontend:
-    build:
-      context: ./OpenCalendar-Frontend
-      dockerfile: Dockerfile
-    ports:
-      - "80:80"
-    depends_on:
-      - OpenCalendar-Backend
 
+services:
   backend:
     build:
       context: ./OpenCalendar-Backend
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
+    environment:
+      SPRING_WEB_RESOURCES_STATIC_LOCATIONS: "classpath:/static/"
+    depends_on:
+      - OpenCalendar-Frontend
+
+  frontend:
+    build:
+      context: ./OpenCalendar-Frontend
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    environment:
+      VITE_API_URL: "http://localhost:8080"
