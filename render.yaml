@@ -1,6 +1,6 @@
 services:
   - type: web
     name: open-calendar
-    env: docker
+    runtime: docker
     plan: free
-    dockerComposeFilePath: ./docker-compose.yaml
+    dockerComposeFilePath: ./docker-compose.yml
