@@ -10,7 +10,7 @@ services:
     environment:
       SPRING_WEB_RESOURCES_STATIC_LOCATIONS: "classpath:/static/"
     depends_on:
-      - OpenCalendar-Frontend
+      - frontend
 
   frontend:
     build:
