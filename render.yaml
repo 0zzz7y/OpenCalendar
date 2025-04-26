@@ -1,0 +1,5 @@
+services:
+  - type: web
+    name: open-calendar
+    env: docker
+    dockerfilePath: ./docker-compose.yml
