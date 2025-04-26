@@ -1,6 +1,24 @@
 services:
   - type: web
-    name: open-calendar
+    name: open-calendar-frontend
     runtime: docker
+    repo: https://github.com/yourusername/OpenCalendar
+    branch: main
+    rootDir: OpenCalendar-Frontend
+    dockerfilePath: Dockerfile
     plan: free
-    dockerComposeFilePath: ./docker-compose.yml
+    envVars:
+      - key: VITE_API_URL
+        value: http://open-calendar-backend:8080
+
+  - type: web
+    name: open-calendar-backend
+    runtime: docker
+    repo: https://github.com/yourusername/OpenCalendar
+    branch: main
+    rootDir: OpenCalendar-Backend
+    dockerfilePath: Dockerfile
+    plan: free
+    envVars:
+      - key: SPRING_WEB_RESOURCES_STATIC_LOCATIONS
+        value: classpath:/static/
