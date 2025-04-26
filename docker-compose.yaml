@@ -2,6 +2,7 @@ version: "3.8"
 
 services:
   backend:
+    container_name: backend
     build:
       context: ./OpenCalendar-Backend
       dockerfile: Dockerfile
@@ -13,6 +14,7 @@ services:
       - frontend
 
   frontend:
+    container_name: frontend
     build:
       context: ./OpenCalendar-Frontend
       dockerfile: Dockerfile
