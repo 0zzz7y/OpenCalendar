@@ -8,7 +8,7 @@ services:
     plan: free
     envVars:
       - key: VITE_API_URL
-        value: https://open-calendar-backend.onrender.com/:8080
+        value: https://open-calendar-backend.onrender.com:8080
 
   - type: web
     name: open-calendar-backend
