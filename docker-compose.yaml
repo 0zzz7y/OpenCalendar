@@ -1,6 +1,15 @@
 version: "3.8"
 
 services:
+  redis:
+    image: redis:7.2-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    command: ["redis-server", "--save", "60", "1", "--loglevel", "warning"]
+    networks:
+      - opencalendar-network
+
   backend:
     build:
       context: ./OpenCalendar-Backend
@@ -10,6 +19,15 @@ services:
       - "8080:8080"
     environment:
       SPRING_WEB_RESOURCES_STATIC_LOCATIONS: "classpath:/static/"
+      SPRING_PROFILES_ACTIVE: production
+      SPRING_CACHE_HOST: redis
+      SPRING_CACHE_PORT: 6379
+    volumes:
+      - ./OpenCalendar-Backend/database:/app/database
+    depends_on:
+      - redis
+    networks:
+      - opencalendar-network
 
   frontend:
     build:
@@ -22,3 +40,9 @@ services:
       VITE_API_URL: "http://backend:8080"
     depends_on:
       - backend
+    networks:
+      - opencalendar-network
+
+networks:
+  opencalendar-network:
+    driver: bridge

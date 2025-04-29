@@ -1,5 +1,22 @@
 services:
   - type: web
+    name: open-calendar-backend
+    runtime: docker
+    repo: https://github.com/0zzz7y/OpenCalendar-Backend
+    branch: main
+    dockerfilePath: Dockerfile
+    plan: free
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: production
+      - key: SPRING_CACHE_HOST
+        value: localhost
+      - key: SPRING_CACHE_PORT
+        value: 6379
+      - key: SPRING_WEB_RESOURCES_STATIC_LOCATIONS
+        value: classpath:/static/
+
+  - type: web
     name: open-calendar-frontend
     runtime: docker
     repo: https://github.com/0zzz7y/OpenCalendar-Frontend
@@ -9,14 +26,3 @@ services:
     envVars:
       - key: VITE_API_URL
         value: https://open-calendar-backend.onrender.com
-
-  - type: web
-    name: open-calendar-backend
-    runtime: docker
-    repo: https://github.com/0zzz7y/OpenCalendar-Backend
-    branch: main
-    dockerfilePath: Dockerfile
-    plan: free
-    envVars:
-      - key: SPRING_WEB_RESOURCES_STATIC_LOCATIONS
-        value: classpath:/static/
