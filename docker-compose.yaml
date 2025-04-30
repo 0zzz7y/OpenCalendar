@@ -43,7 +43,7 @@ services:
     networks:
       - opencalendar-network
 
-  cron-backup:
+  backup:
     build:
       context: ./Backup
       dockerfile: Dockerfile
