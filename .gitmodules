@@ -1,8 +1,8 @@
 [submodule "OpenCalendar-Backend"]
-	path = OpenCalendar-Backend
+	path = Backend
 	url = https://github.com/0zzz7y/OpenCalendar-Backend.git
 [submodule "OpenCalendar-Frontend"]
-	path = OpenCalendar-Frontend
+	path = Frontend
 	url = https://github.com/0zzz7y/OpenCalendar-Frontend.git
 [submodule "OpenCalendar-Microservices/OpenCalendar-Microservices-Core"]
 	path = OpenCalendar-Microservices/OpenCalendar-Microservices-Core
