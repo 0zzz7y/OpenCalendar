@@ -4,3 +4,6 @@
 [submodule "OpenCalendar-Frontend"]
 	path = OpenCalendar-Frontend
 	url = https://github.com/0zzz7y/OpenCalendar-Frontend.git
+[submodule "OpenCalendar-Microservices/OpenCalendar-Microservices-Core"]
+	path = OpenCalendar-Microservices/OpenCalendar-Microservices-Core
+	url = https://github.com/0zzz7y/OpenCalendar-Microservices-Core.git
