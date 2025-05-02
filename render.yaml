@@ -16,9 +16,13 @@ services:
       - key: SPRING_PROFILES_ACTIVE
         value: production
       - key: SPRING_CACHE_HOST
-        fromService: open-calendar-redis
+        fromService:
+          name: open-calendar-redis
+          property: host
       - key: SPRING_CACHE_PORT
-        fromService: open-calendar-redis
+        fromService:
+          name: open-calendar-redis
+          property: port
       - key: SPRING_WEB_RESOURCES_STATIC_LOCATIONS
         value: classpath:/static/
 
@@ -35,9 +39,13 @@ services:
       - key: SERVER_PORT
         value: "8081"
       - key: SPRING_CACHE_HOST
-        fromService: open-calendar-redis
+        fromService:
+          name: open-calendar-redis
+          property: host
       - key: SPRING_CACHE_PORT
-        fromService: open-calendar-redis
+        fromService:
+          name: open-calendar-redis
+          property: port
 
   - type: web
     name: open-calendar-ten-service
@@ -52,9 +60,13 @@ services:
       - key: SERVER_PORT
         value: "8082"
       - key: SPRING_CACHE_HOST
-        fromService: open-calendar-redis
+        fromService:
+          name: open-calendar-redis
+          property: host
       - key: SPRING_CACHE_PORT
-        fromService: open-calendar-redis
+        fromService:
+          name: open-calendar-redis
+          property: port
 
   - type: web
     name: open-calendar-frontend
