@@ -29,6 +29,86 @@ services:
     networks:
       - opencalendar-network
 
+  calendar-service:
+    build:
+      context: ./calendar-service
+      dockerfile: Dockerfile
+    container_name: calendar-service
+    ports:
+      - "8081:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: production
+      SPRING_CACHE_HOST: redis
+      SPRING_CACHE_PORT: 6379
+    depends_on:
+      - redis
+    networks:
+      - opencalendar-network
+
+  category-service:
+    build:
+      context: ./category-service
+      dockerfile: Dockerfile
+    container_name: category-service
+    ports:
+      - "8082:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: production
+      SPRING_CACHE_HOST: redis
+      SPRING_CACHE_PORT: 6379
+    depends_on:
+      - redis
+    networks:
+      - opencalendar-network
+
+  event-service:
+    build:
+      context: ./Microservices/Event
+      dockerfile: Dockerfile
+    container_name: event-service
+    ports:
+      - "8083:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: production
+      SPRING_CACHE_HOST: redis
+      SPRING_CACHE_PORT: 6379
+    depends_on:
+      - redis
+    networks:
+      - opencalendar-network
+
+  task-service:
+    build:
+      context: ./Microservices/Task
+      dockerfile: Dockerfile
+    container_name: task-service
+    ports:
+      - "8084:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: production
+      SPRING_CACHE_HOST: redis
+      SPRING_CACHE_PORT: 6379
+    depends_on:
+      - redis
+    networks:
+      - opencalendar-network
+
+  note-service:
+    build:
+      context: ./Microservices/Note
+      dockerfile: Dockerfile
+    container_name: note-service
+    ports:
+      - "8085:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: production
+      SPRING_CACHE_HOST: redis
+      SPRING_CACHE_PORT: 6379
+    depends_on:
+      - redis
+    networks:
+      - opencalendar-network
+
   frontend:
     build:
       context: ./OpenCalendar-Frontend
@@ -37,9 +117,19 @@ services:
     ports:
       - "80:80"
     environment:
-      VITE_API_URL: "http://backend:8080"
+      VITE_MODE: microservices
+      VITE_BACKEND_URL: "http://backend:8080"
+      VITE_CALENDAR_SERVICE_URL: "http://calendar-service:8080"
+      VITE_CATEGORY_SERVICE_URL: "http://category-service:8080"
+      VITE_EVENT_SERVICE_URL: "http://event-service:8080"
+      VITE_TASK_SERVICE_URL: "http://task-service:8080"
+      VITE_NOTE_SERVICE_URL: "http://note-service:8080"
     depends_on:
-      - backend
+      - calendar-service
+      - category-service
+      - event-service
+      - task-service
+      - note-service
     networks:
       - opencalendar-network
 
