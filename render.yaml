@@ -1,11 +1,5 @@
 version: "1"
 
-envGroups:
-  - name: global
-    envVars:
-      - key: APP_MODE
-        value: monolith
-
 services:
   - type: redis
     name: open-calendar-redis
@@ -18,8 +12,6 @@ services:
     branch: main
     dockerfilePath: Dockerfile
     plan: free
-    envGroupRefs:
-      - global
     envVars:
       - key: SPRING_PROFILES_ACTIVE
         value: production
@@ -37,10 +29,6 @@ services:
     branch: main
     dockerfilePath: Dockerfile
     plan: free
-
-    envGroupRefs:
-      - global
-
     envVars:
       - key: SPRING_PROFILES_ACTIVE
         value: production
@@ -58,8 +46,6 @@ services:
     branch: main
     dockerfilePath: Dockerfile
     plan: free
-    envGroupRefs:
-      - global
     envVars:
       - key: SPRING_PROFILES_ACTIVE
         value: production
@@ -77,8 +63,6 @@ services:
     branch: main
     dockerfilePath: Dockerfile
     plan: free
-    envGroupRefs:
-      - global
     envVars:
       - key: VITE_BACKEND_URL
         value: https://open-calendar-backend.onrender.com
