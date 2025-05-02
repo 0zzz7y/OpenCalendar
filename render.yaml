@@ -4,9 +4,9 @@ services:
     name: open-calendar-redis
     plan: free
     ipAllowList:
-      - 100.20.92.101
-      - 44.225.181.72
-      - 44.227.217.144
+      - source: 100.20.92.101
+      - source: 44.225.181.72
+      - source: 44.227.217.144
 
   - type: web
     name: open-calendar-backend
