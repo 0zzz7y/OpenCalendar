@@ -1,9 +1,12 @@
 version: "1"
-
 services:
   - type: redis
     name: open-calendar-redis
     plan: free
+    ipAllowList:
+      - source: open-calendar-backend
+      - source: open-calendar-cc-service
+      - source: open-calendar-ten-service
 
   - type: web
     name: open-calendar-backend
@@ -18,10 +21,12 @@ services:
       - key: SPRING_CACHE_HOST
         fromService:
           name: open-calendar-redis
+          type: redis
           property: host
       - key: SPRING_CACHE_PORT
         fromService:
           name: open-calendar-redis
+          type: redis
           property: port
       - key: SPRING_WEB_RESOURCES_STATIC_LOCATIONS
         value: classpath:/static/
@@ -41,10 +46,12 @@ services:
       - key: SPRING_CACHE_HOST
         fromService:
           name: open-calendar-redis
+          type: redis
           property: host
       - key: SPRING_CACHE_PORT
         fromService:
           name: open-calendar-redis
+          type: redis
           property: port
 
   - type: web
@@ -62,10 +69,12 @@ services:
       - key: SPRING_CACHE_HOST
         fromService:
           name: open-calendar-redis
+          type: redis
           property: host
       - key: SPRING_CACHE_PORT
         fromService:
           name: open-calendar-redis
+          type: redis
           property: port
 
   - type: web
