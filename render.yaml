@@ -80,7 +80,7 @@ services:
     envGroupRefs:
       - global
     envVars:
-      - key: VITE_API_URL
+      - key: VITE_BACKEND_URL
         value: https://open-calendar-backend.onrender.com
       - key: VITE_CC_URL
         value: https://open-calendar-cc-service.onrender.com
