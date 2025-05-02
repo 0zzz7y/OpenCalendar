@@ -1,4 +1,16 @@
+version: "1"
+
+envGroups:
+  - name: global
+    envVars:
+      - key: APP_MODE
+        value: monolith
+
 services:
+  - type: redis
+    name: open-calendar-redis
+    plan: free
+
   - type: web
     name: open-calendar-backend
     runtime: docker
@@ -6,15 +18,57 @@ services:
     branch: main
     dockerfilePath: Dockerfile
     plan: free
+    envGroupRefs:
+      - global
     envVars:
       - key: SPRING_PROFILES_ACTIVE
         value: production
       - key: SPRING_CACHE_HOST
-        value: localhost
+        fromService: open-calendar-redis
       - key: SPRING_CACHE_PORT
-        value: 6379
+        fromService: open-calendar-redis
       - key: SPRING_WEB_RESOURCES_STATIC_LOCATIONS
         value: classpath:/static/
+
+  - type: web
+    name: open-calendar-cc-service
+    runtime: docker
+    repo: https://github.com/0zzz7y/OpenCalendar-Cc
+    branch: main
+    dockerfilePath: Dockerfile
+    plan: free
+
+    envGroupRefs:
+      - global
+
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: production
+      - key: SERVER_PORT
+        value: "8081"
+      - key: SPRING_CACHE_HOST
+        fromService: open-calendar-redis
+      - key: SPRING_CACHE_PORT
+        fromService: open-calendar-redis
+
+  - type: web
+    name: open-calendar-ten-service
+    runtime: docker
+    repo: https://github.com/0zzz7y/OpenCalendar-Event
+    branch: main
+    dockerfilePath: Dockerfile
+    plan: free
+    envGroupRefs:
+      - global
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: production
+      - key: SERVER_PORT
+        value: "8082"
+      - key: SPRING_CACHE_HOST
+        fromService: open-calendar-redis
+      - key: SPRING_CACHE_PORT
+        fromService: open-calendar-redis
 
   - type: web
     name: open-calendar-frontend
@@ -23,6 +77,12 @@ services:
     branch: main
     dockerfilePath: Dockerfile
     plan: free
+    envGroupRefs:
+      - global
     envVars:
       - key: VITE_API_URL
         value: https://open-calendar-backend.onrender.com
+      - key: VITE_CC_URL
+        value: https://open-calendar-cc-service.onrender.com
+      - key: VITE_TEN_URL
+        value: https://open-calendar-ten-service.onrender.com

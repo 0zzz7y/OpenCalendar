@@ -3,37 +3,51 @@ version: "3.8"
 services:
   redis:
     image: redis:7.2-alpine
-    container_name: redis
     ports:
       - "6379:6379"
-    command: ["redis-server", "--save", "60", "1", "--loglevel", "warning"]
+    command:
+      - redis-server
+      - "--save"
+      - "60"
+      - "1"
+      - "--loglevel"
+      - "warning"
     networks:
       - opencalendar-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
   backend:
     build:
-      context: ./OpenCalendar-Backend
+      context: ./Backend
       dockerfile: Dockerfile
-    container_name: backend
     ports:
       - "8080:8080"
     environment:
-      SPRING_WEB_RESOURCES_STATIC_LOCATIONS: "classpath:/static/"
       SPRING_PROFILES_ACTIVE: production
       SPRING_CACHE_HOST: redis
       SPRING_CACHE_PORT: 6379
     volumes:
-      - ./OpenCalendar-Backend/database:/app/database
+      - ./Backend/database:/app/database
     depends_on:
       - redis
     networks:
       - opencalendar-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
 
-  calendar-service:
+  cc-service:
     build:
-      context: ./calendar-service
+      context: ./Microservices/Cc
       dockerfile: Dockerfile
-    container_name: calendar-service
     ports:
       - "8081:8080"
     environment:
@@ -44,12 +58,12 @@ services:
       - redis
     networks:
       - opencalendar-network
+    restart: unless-stopped
 
-  category-service:
+  ten-service:
     build:
-      context: ./category-service
+      context: ./Microservices/Event
       dockerfile: Dockerfile
-    container_name: category-service
     ports:
       - "8082:8080"
     environment:
@@ -60,89 +74,36 @@ services:
       - redis
     networks:
       - opencalendar-network
-
-  event-service:
-    build:
-      context: ./Microservices/Event
-      dockerfile: Dockerfile
-    container_name: event-service
-    ports:
-      - "8083:8080"
-    environment:
-      SPRING_PROFILES_ACTIVE: production
-      SPRING_CACHE_HOST: redis
-      SPRING_CACHE_PORT: 6379
-    depends_on:
-      - redis
-    networks:
-      - opencalendar-network
-
-  task-service:
-    build:
-      context: ./Microservices/Task
-      dockerfile: Dockerfile
-    container_name: task-service
-    ports:
-      - "8084:8080"
-    environment:
-      SPRING_PROFILES_ACTIVE: production
-      SPRING_CACHE_HOST: redis
-      SPRING_CACHE_PORT: 6379
-    depends_on:
-      - redis
-    networks:
-      - opencalendar-network
-
-  note-service:
-    build:
-      context: ./Microservices/Note
-      dockerfile: Dockerfile
-    container_name: note-service
-    ports:
-      - "8085:8080"
-    environment:
-      SPRING_PROFILES_ACTIVE: production
-      SPRING_CACHE_HOST: redis
-      SPRING_CACHE_PORT: 6379
-    depends_on:
-      - redis
-    networks:
-      - opencalendar-network
+    restart: unless-stopped
 
   frontend:
     build:
       context: ./OpenCalendar-Frontend
       dockerfile: Dockerfile
-    container_name: frontend
     ports:
       - "80:80"
     environment:
       VITE_MODE: microservices
-      VITE_BACKEND_URL: "http://backend:8080"
-      VITE_CALENDAR_SERVICE_URL: "http://calendar-service:8080"
-      VITE_CATEGORY_SERVICE_URL: "http://category-service:8080"
-      VITE_EVENT_SERVICE_URL: "http://event-service:8080"
-      VITE_TASK_SERVICE_URL: "http://task-service:8080"
-      VITE_NOTE_SERVICE_URL: "http://note-service:8080"
+      VITE_BACKEND_URL: http://backend:8080
+      VITE_CC_URL: http://cc-service:8080
+      VITE_TEN_URL: http://ten-service:8080
     depends_on:
-      - calendar-service
-      - category-service
-      - event-service
-      - task-service
-      - note-service
+      - cc-service
+      - ten-service
     networks:
       - opencalendar-network
+    restart: unless-stopped
 
   backup:
     build:
       context: ./Backup
       dockerfile: Dockerfile
-    container_name: cron-backup
     volumes:
-      - ./OpenCalendar-Backend/database:/app/database
-      - ./OpenCalendar-Backend/backup:/app/backup
+      - ./Backend/database:/app/database
+      - ./Backend/backup:/app/backup
     networks:
       - opencalendar-network
+    restart: unless-stopped
 
 networks:
   opencalendar-network:
