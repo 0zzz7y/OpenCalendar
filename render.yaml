@@ -32,51 +32,67 @@ services:
       - key: SPRING_WEB_RESOURCES_STATIC_LOCATIONS
         value: classpath:/static/
 
-  # - type: web
-  #   name: open-calendar-cc-service
-  #   runtime: docker
-  #   repo: https://github.com/0zzz7y/OpenCalendar-Cc
-  #   branch: main
-  #   dockerfilePath: Dockerfile
-  #   plan: free
-  #   envVars:
-  #     - key: SPRING_PROFILES_ACTIVE
-  #       value: production
-  #     - key: SERVER_PORT
-  #       value: "8081"
-  #     - key: SPRING_CACHE_HOST
-  #       fromService:
-  #         name: open-calendar-redis
-  #         type: redis
-  #         property: host
-  #     - key: SPRING_CACHE_PORT
-  #       fromService:
-  #         name: open-calendar-redis
-  #         type: redis
-  #         property: port
+  - type: web
+    name: open-calendar-cc-service
+    runtime: docker
+    repo: https://github.com/0zzz7y/OpenCalendar-Cc
+    branch: main
+    dockerfilePath: Dockerfile
+    plan: free
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: production
+      - key: SERVER_PORT
+        value: "8081"
+      - key: SPRING_CACHE_HOST
+        fromService:
+          name: open-calendar-redis
+          type: redis
+          property: host
+      - key: SPRING_CACHE_PORT
+        fromService:
+          name: open-calendar-redis
+          type: redis
+          property: port
+      - key: SPRING_RABBITMQ_HOST
+        value: YOUR_RABBITMQ_HOST
+      - key: SPRING_RABBITMQ_PORT
+        value: "5672"
+      - key: SPRING_RABBITMQ_USERNAME
+        value: YOUR_RABBITMQ_USERNAME
+      - key: SPRING_RABBITMQ_PASSWORD
+        value: YOUR_RABBITMQ_PASSWORD
 
-  # - type: web
-  #   name: open-calendar-ten-service
-  #   runtime: docker
-  #   repo: https://github.com/0zzz7y/OpenCalendar-Event
-  #   branch: main
-  #   dockerfilePath: Dockerfile
-  #   plan: free
-  #   envVars:
-  #     - key: SPRING_PROFILES_ACTIVE
-  #       value: production
-  #     - key: SERVER_PORT
-  #       value: "8082"
-  #     - key: SPRING_CACHE_HOST
-  #       fromService:
-  #         name: open-calendar-redis
-  #         type: redis
-  #         property: host
-  #     - key: SPRING_CACHE_PORT
-  #       fromService:
-  #         name: open-calendar-redis
-  #         type: redis
-  #         property: port
+  - type: web
+    name: open-calendar-ten-service
+    runtime: docker
+    repo: https://github.com/0zzz7y/OpenCalendar-Event
+    branch: main
+    dockerfilePath: Dockerfile
+    plan: free
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: production
+      - key: SERVER_PORT
+        value: "8082"
+      - key: SPRING_CACHE_HOST
+        fromService:
+          name: open-calendar-redis
+          type: redis
+          property: host
+      - key: SPRING_CACHE_PORT
+        fromService:
+          name: open-calendar-redis
+          type: redis
+          property: port
+      - key: SPRING_RABBITMQ_HOST
+        value: YOUR_RABBITMQ_HOST
+      - key: SPRING_RABBITMQ_PORT
+        value: "5672"
+      - key: SPRING_RABBITMQ_USERNAME
+        value: YOUR_RABBITMQ_USERNAME
+      - key: SPRING_RABBITMQ_PASSWORD
+        value: YOUR_RABBITMQ_PASSWORD
 
   - type: web
     name: open-calendar-frontend
