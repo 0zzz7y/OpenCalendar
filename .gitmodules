@@ -10,3 +10,6 @@
 [submodule "Microservices/TEN"]
 	path = Microservices/TEN
 	url = https://github.com/0zzz7y/OpenCalendar-Microservice-TEN.git
+[submodule "Microservices/CC"]
+	path = Microservices/CC
+	url = https://github.com/0zzz7y/OpenCalendar-Microservices-CC.git
