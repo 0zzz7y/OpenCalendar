@@ -102,6 +102,8 @@ services:
     dockerfilePath: Dockerfile
     plan: free
     envVars:
+      - key: VITE_APP_MODE
+        value: monolith
       - key: VITE_BACKEND_URL
         value: https://open-calendar-backend.onrender.com
       - key: VITE_CC_URL
