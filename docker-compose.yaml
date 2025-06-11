@@ -1,6 +1,8 @@
 version: "3.8"
 
+# ───────────────────────── Services ─────────────────────────
 services:
+  # Redis
   redis:
     image: redis:7.2-alpine
     ports:
@@ -21,6 +23,7 @@ services:
       timeout: 10s
       retries: 5
 
+  # Backend
   backend:
     build:
       context: ./Backend
@@ -44,6 +47,7 @@ services:
       timeout: 5s
       retries: 3
 
+  # Frontend
   frontend:
     build:
       context: ./OpenCalendar-Frontend
@@ -55,24 +59,11 @@ services:
       VITE_BACKEND_URL: http://backend:8080
       VITE_CC_URL: http://cc-service:8080
       VITE_TEN_URL: http://ten-service:8080
-    depends_on:
-      - cc-service
-      - ten-service
     networks:
       - opencalendar-network
     restart: unless-stopped
 
-  backup:
-    build:
-      context: ./Backup
-      dockerfile: Dockerfile
-    volumes:
-      - ./Backend/database:/app/database
-      - ./Backend/backup:/app/backup
-    networks:
-      - opencalendar-network
-    restart: unless-stopped
-
+# ───────────────────────── Networks ─────────────────────────
 networks:
   opencalendar-network:
     driver: bridge
