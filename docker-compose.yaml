@@ -34,10 +34,7 @@ services:
     ports:
       - "80:80"
     environment:
-      VITE_MODE: microservices
-      VITE_BACKEND_URL: http://backend:8080
-      VITE_CC_URL: http://cc-service:8080
-      VITE_TEN_URL: http://ten-service:8080
+      VITE_API_URL: https://open-calendar-backend.onrender.com:8080
     networks:
       - opencalendar-network
     restart: unless-stopped
