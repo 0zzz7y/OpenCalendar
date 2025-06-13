@@ -16,7 +16,7 @@ services:
       - key: SPRING_WEB_RESOURCES_STATIC_LOCATIONS
         value: classpath:/static/
       - key: SPRING_DATASOURCE_URL
-        value: jdbc:postgresql://dpg-d16802uuk2gs73clf2hg-a:5432/open_calendar_database
+        value: jdbc:postgresql://open-calendar-database:5432/open_calendar_database
       - key: SPRING_DATASOURCE_USERNAME
         value: open_calendar_database_user
       - key: SPRING_DATASOURCE_PASSWORD
@@ -53,3 +53,17 @@ services:
       - source: 100.20.92.101
       - source: 44.225.181.72
       - source: 44.227.217.144
+
+# ───────────────────────── Databases ─────────────────────────
+databases:
+  - name: open-calendar-database
+    databaseName: open_calendar_database
+    user: open_calendar_database_user
+    plan: free
+    ipAllowList:
+      - source: 100.20.92.101
+        description: production-1
+      - source: 44.225.181.72
+        description: production-2
+      - source: 44.227.217.144
+        description: production-3
