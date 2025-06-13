@@ -24,20 +24,11 @@ services:
           type: redis
           property: port
       - key: SPRING_DATASOURCE_URL
-        fromService:
-          name: open-calendar-database
-          type: pserv
-          property: connectionString
+        value: jdbc:postgresql://dpg-d16802uuk2gs73clf2hg-a:5432/open_calendar_database
       - key: SPRING_DATASOURCE_USERNAME
-        fromService:
-          name: open-calendar-database
-          type: pserv
-          property: user
+        value: open_calendar_database_user
       - key: SPRING_DATASOURCE_PASSWORD
-        fromService:
-          name: open-calendar-database
-          type: pserv
-          property: password
+        fromSecret: POSTGRES_PASSWORD
       - key: SPRING_WEB_RESOURCES_STATIC_LOCATIONS
         value: classpath:/static/
 
@@ -52,14 +43,6 @@ services:
     envVars:
       - key: VITE_API_URL
         value: https://open-calendar-backend.onrender.com
-
-  # PostgreSQL
-  - type: postgres
-    name: open-calendar-database
-    plan: free
-    properties:
-      databaseName: open_calendar_database
-      user: open_calendar_database_user
 
   # Redis
   - type: redis

@@ -11,14 +11,13 @@ services:
       - "8080:8080"
     environment:
       SPRING_PROFILES_ACTIVE: production
-      SPRING_DATASOURCE_URL: jdbc:postgresql://database:5432/open_calendar_database
-      SPRING_DATASOURCE_USERNAME: admin
-      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_DATASOURCE_URL: jdbc:postgresql://dpg-d16802uuk2gs73clf2hg-a:5432/open_calendar_database
+      SPRING_DATASOURCE_USERNAME: open_calendar_database_user
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
       SPRING_CACHE_HOST: redis
       SPRING_CACHE_PORT: 6379
     depends_on:
       - redis
-      - database
     networks:
       - opencalendar-network
     restart: unless-stopped
@@ -40,24 +39,6 @@ services:
     networks:
       - opencalendar-network
     restart: unless-stopped
-
-  # Database
-  database:
-  image: postgres:16
-  restart: unless-stopped
-  environment:
-    POSTGRES_DB: open_calendar_database
-    POSTGRES_USER: admin
-    POSTGRES_PASSWORD: password
-  volumes:
-    - postgres_data:/var/lib/postgresql/data
-  networks:
-    - opencalendar-network
-  healthcheck:
-    test: ["CMD-SHELL", "pg_isready -U admin"]
-    interval: 30s
-    timeout: 5s
-    retries: 5
 
   # Redis
   redis:
