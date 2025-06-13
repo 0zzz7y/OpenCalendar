@@ -5,9 +5,9 @@ services:
   # Backend
   - type: web
     name: open-calendar-backend
-    runtime: docker
     repo: https://github.com/0zzz7y/OpenCalendar-Backend
     branch: main
+    runtime: docker
     dockerfilePath: Dockerfile
     plan: free
     envVars:
@@ -16,12 +16,11 @@ services:
       - key: SPRING_WEB_RESOURCES_STATIC_LOCATIONS
         value: classpath:/static/
       - key: SPRING_DATASOURCE_URL
-        value: jdbc:postgresql://open-calendar-database:5432/open_calendar_database
+        value: jdbc:postgresql://dpg-d16802uuk2gs73clf2hg-a.pg.render.com:5432/open_calendar_database
       - key: SPRING_DATASOURCE_USERNAME
         value: open_calendar_database_user
       - key: SPRING_DATASOURCE_PASSWORD
-        value: null
-        fromSecret: POSTGRES_PASSWORD
+        value: ${POSTGRES_PASSWORD}
       - key: SPRING_CACHE_HOST
         fromService:
           name: open-calendar-redis
@@ -36,9 +35,9 @@ services:
   # Frontend
   - type: web
     name: open-calendar-frontend
-    runtime: docker
     repo: https://github.com/0zzz7y/OpenCalendar-Frontend
     branch: main
+    runtime: docker
     dockerfilePath: Dockerfile
     plan: free
     envVars:
