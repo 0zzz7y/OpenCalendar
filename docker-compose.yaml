@@ -18,6 +18,7 @@ services:
       SPRING_CACHE_PORT: 6379
     depends_on:
       - redis
+      - database
     networks:
       - opencalendar-network
     restart: unless-stopped
