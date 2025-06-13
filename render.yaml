@@ -54,19 +54,12 @@ services:
         value: https://open-calendar-backend.onrender.com
 
   # PostgreSQL
-  - type: pserv
+  - type: postgres
     name: open-calendar-database
     plan: free
-    runtime: postgres
-    postgresMajorVersion: 16
-    ipAllowList: []
-    envVars:
-      - key: POSTGRES_DB
-        value: open_calendar_database
-      - key: POSTGRES_USER
-        value: admin
-      - key: POSTGRES_PASSWORD
-        generateValue: true
+    properties:
+      databaseName: open_calendar_database
+      user: admin
 
   # Redis
   - type: redis
