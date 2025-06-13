@@ -13,6 +13,7 @@ services:
       SPRING_PROFILES_ACTIVE: production
       SPRING_DATASOURCE_URL: jdbc:postgresql://dpg-d16802uuk2gs73clf2hg-a:5432/open_calendar_database
       SPRING_DATASOURCE_USERNAME: open_calendar_database_user
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
       SPRING_CACHE_HOST: redis
       SPRING_CACHE_PORT: 6379
     depends_on:
