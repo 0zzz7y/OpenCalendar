@@ -43,7 +43,6 @@ services:
   # Database
   database:
   image: postgres:16
-  container_name: open-calendar-database
   restart: unless-stopped
   environment:
     POSTGRES_DB: open_calendar_database
