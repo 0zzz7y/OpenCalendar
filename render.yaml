@@ -13,6 +13,14 @@ services:
     envVars:
       - key: SPRING_PROFILES_ACTIVE
         value: production
+      - key: SPRING_DATASOURCE_URL
+        value: jdbc:postgresql://dpg-d16802uuk2gs73clf2hg-a:5432/open_calendar_database
+      - key: SPRING_DATASOURCE_USERNAME
+        value: open_calendar_database_user
+      - key: SPRING_DATASOURCE_PASSWORD
+        fromSecret: POSTGRES_PASSWORD
+      - key: SPRING_WEB_RESOURCES_STATIC_LOCATIONS
+        value: classpath:/static/
       - key: SPRING_CACHE_HOST
         fromService:
           name: open-calendar-redis
@@ -23,14 +31,6 @@ services:
           name: open-calendar-redis
           type: redis
           property: port
-      - key: SPRING_DATASOURCE_URL
-        value: jdbc:postgresql://dpg-d16802uuk2gs73clf2hg-a:5432/open_calendar_database
-      - key: SPRING_DATASOURCE_USERNAME
-        value: open_calendar_database_user
-      - key: SPRING_DATASOURCE_PASSWORD
-        fromSecret: POSTGRES_PASSWORD
-      - key: SPRING_WEB_RESOURCES_STATIC_LOCATIONS
-        value: classpath:/static/
 
   # Frontend
   - type: web
