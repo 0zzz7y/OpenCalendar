@@ -11,6 +11,7 @@ services:
     dockerfilePath: Dockerfile
     plan: free
     envVars:
+      - fromGroup: open-calendar-environment
       - key: SPRING_PROFILES_ACTIVE
         value: production
       - key: SPRING_DATASOURCE_URL
