@@ -20,6 +20,7 @@ services:
       - key: SPRING_DATASOURCE_USERNAME
         value: open_calendar_database_user
       - key: SPRING_DATASOURCE_PASSWORD
+        value: null
         fromSecret: POSTGRES_PASSWORD
       - key: SPRING_CACHE_HOST
         fromService:
