@@ -59,7 +59,7 @@ services:
     plan: free
     properties:
       databaseName: open_calendar_database
-      user: admin
+      user: open_calendar_database_user
 
   # Redis
   - type: redis
