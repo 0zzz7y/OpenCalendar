@@ -11,13 +11,14 @@ services:
       - "8080:8080"
     environment:
       SPRING_PROFILES_ACTIVE: production
-      SPRING_DATASOURCE_URL: jdbc:postgresql:/
-      SPRING_DATASOURCE_USERNAME: open_calendar_database_user
-      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/open_calendar_database
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: password
       SPRING_CACHE_HOST: redis
       SPRING_CACHE_PORT: 6379
     depends_on:
       - redis
+      - postgres
     networks:
       - opencalendar-network
     restart: unless-stopped
@@ -36,7 +37,7 @@ services:
     ports:
       - "80:80"
     environment:
-      VITE_API_URL: http://backend:8080
+      VITE_API_URL: http://localhost:8080
     networks:
       - opencalendar-network
     restart: unless-stopped
@@ -62,7 +63,36 @@ services:
       timeout: 10s
       retries: 5
 
+  # PostgreSQL
+  postgres:
+    image: postgres:15-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: open_calendar_database
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - opencalendar-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d open_calendar_database"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
 # ───────────────────────── Networks ─────────────────────────
 networks:
   opencalendar-network:
     driver: bridge
+
+# ───────────────────────── Volumes ─────────────────────────
+volumes:
+  postgres_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: /var/lib/postgresql/data
+      o: bind
