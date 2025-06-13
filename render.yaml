@@ -11,7 +11,6 @@ services:
     dockerfilePath: Dockerfile
     plan: free
     envVars:
-      - fromGroup: open-calendar-environment
       - key: SPRING_PROFILES_ACTIVE
         value: production
       - key: SPRING_WEB_RESOURCES_STATIC_LOCATIONS
@@ -21,7 +20,6 @@ services:
       - key: SPRING_DATASOURCE_USERNAME
         value: open_calendar_database_user
       - key: SPRING_DATASOURCE_PASSWORD
-        value: null
         fromSecret: POSTGRES_PASSWORD
       - key: SPRING_CACHE_HOST
         fromService:
