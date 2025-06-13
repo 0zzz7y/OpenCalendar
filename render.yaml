@@ -1,14 +1,8 @@
 version: "1"
 
+# ───────────────────────── Services ─────────────────────────
 services:
-  - type: redis
-    name: open-calendar-redis
-    plan: free
-    ipAllowList:
-      - source: 100.20.92.101
-      - source: 44.225.181.72
-      - source: 44.227.217.144
-
+  # Backend
   - type: web
     name: open-calendar-backend
     runtime: docker
@@ -29,9 +23,25 @@ services:
           name: open-calendar-redis
           type: redis
           property: port
+      - key: SPRING_DATASOURCE_URL
+        fromService:
+          name: open-calendar-database
+          type: pserv
+          property: connectionString
+      - key: SPRING_DATASOURCE_USERNAME
+        fromService:
+          name: open-calendar-database
+          type: pserv
+          property: user
+      - key: SPRING_DATASOURCE_PASSWORD
+        fromService:
+          name: open-calendar-database
+          type: pserv
+          property: password
       - key: SPRING_WEB_RESOURCES_STATIC_LOCATIONS
         value: classpath:/static/
 
+  # Frontend
   - type: web
     name: open-calendar-frontend
     runtime: docker
@@ -40,11 +50,29 @@ services:
     dockerfilePath: Dockerfile
     plan: free
     envVars:
-      - key: VITE_APP_MODE
-        value: monolith
-      - key: VITE_BACKEND_URL
+      - key: VITE_API_URL
         value: https://open-calendar-backend.onrender.com
-      - key: VITE_CC_URL
-        value: https://open-calendar-cc-service.onrender.com
-      - key: VITE_TEN_URL
-        value: https://open-calendar-ten-service.onrender.com
+
+  # PostgreSQL
+  - type: pserv
+    name: open-calendar-database
+    plan: free
+    runtime: postgres
+    postgresMajorVersion: 16
+    ipAllowList: []
+    envVars:
+      - key: POSTGRES_DB
+        value: open_calendar_database
+      - key: POSTGRES_USER
+        value: admin
+      - key: POSTGRES_PASSWORD
+        generateValue: true
+
+  # Redis
+  - type: redis
+    name: open-calendar-redis
+    plan: free
+    ipAllowList:
+      - source: 100.20.92.101
+      - source: 44.225.181.72
+      - source: 44.227.217.144
