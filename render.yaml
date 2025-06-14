@@ -16,7 +16,7 @@ services:
       - key: SPRING_WEB_RESOURCES_STATIC_LOCATIONS
         value: classpath:/static/
       - key: SPRING_DATASOURCE_URL
-        value: jdbc:postgresql://open_calendar_database_user:5k5Ervy8G2W9rTdeB1JOxjPthq5rJKqm@dpg-d16802uuk2gs73clf2hg-a/open_calendar_database
+        value: jdbc:postgresql://dpg-d16802uuk2gs73clf2hg-a.oregon-postgres.render.com/open_calendar_database
       - key: SPRING_DATASOURCE_USERNAME
         value: open_calendar_database_user
       - key: SPRING_DATASOURCE_PASSWORD
