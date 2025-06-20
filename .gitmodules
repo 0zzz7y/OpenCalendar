@@ -1,6 +1,6 @@
 [submodule "backend"]
-	path = backend1
+	path = backend
 	url = https://github.com/0zzz7y/open-calendar-backend.git
 [submodule "frontend"]
-	path = frontend2
+	path = frontend
 	url = https://github.com/0zzz7y/open-calendar-frontend.git
